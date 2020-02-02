@@ -7,6 +7,11 @@ const baseURL = 'http://api.openweathermap.org/data/2.5/weather?q=';
 let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
+// Temp Values for weather data
+let weatherData = {};
+let recentRecord = [];
+
+
 // use to make a POST request to our route
 const postData = async ( url = '', data = {})=>{
     console.log(data);
@@ -28,3 +33,5 @@ const postData = async ( url = '', data = {})=>{
       console.log("error", error);
       }
   }
+
+

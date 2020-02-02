@@ -30,19 +30,22 @@ app.get("/all", sendData);
 
 function sendData(req, res) {
   res.send(projectData);
-  console.log(projectData);
+  // console.log(projectData);
 }
 //make a POST request
 app.post('/add', saveData);
 function saveData (req, res) {
   res.send('POST received');
-  console.log(req.body);
+  // console.log(req.body);
 };
 
 // Make POST to Weather Data
-const data = []
+
 app.post('/addWeatherData', addWeatherData )
 function addWeatherData (req, res){
-  console.log(req.body)
-  data.push(req.body)
+  projectData.newEntry = {
+    entryDate: req.body.date,
+    temperature: req.body.temperature,
+    feelings: req.body.feelings,
+  }
 }
