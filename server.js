@@ -48,4 +48,5 @@ function addWeatherData (req, res){
     temperature: req.body.temperature,
     feelings: req.body.feelings,
   }
+  
 }

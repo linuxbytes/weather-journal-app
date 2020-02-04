@@ -1,6 +1,6 @@
 // Personal API Key for OpenWeatherMap API [0c0287eb61f14df9fc63debf39b1083e]
 /* Global Variables */
-const key = "APPID=0c0287eb61f14df9fc63debf39b1083e";
+const key = "&units=metric&APPID=0c0287eb61f14df9fc63debf39b1083e";
 const baseURL = "http://api.openweathermap.org/data/2.5/weather?q=";
 
 // Create a new date instance dynamically with JS
@@ -17,32 +17,33 @@ document
         date: newDate,
         temperature: data.main.temp,
         feelings: feelings
-      }).then(entryUpdate);
+      }).then(entryUpdate());
     });
   });
-
-// update last entry section of form
-const entryUpdate = async function() {
-  const req = await fetch("/all");
-  try {
-    const allData = await req.json();
-    document.getElementById("date").innerHTML =
-      "<p>" + allData.newEntry.entryDate + "</p>";
-    document.getElementById("temp").innerHTML =
-      "<p>" + allData.newEntry.temperature + "</p>";
-    document.getElementById("content").innerHTML =
-      "<p>" + allData.newEntry.feelings + "</p>";
-  } catch (error) {
-    console.log("error", error);
-  }
-};
 
 const getweatherData = async function(baseURL, zip, key) {
   // asynchronous fetch openweathermap
   const res = await fetch(baseURL + zip + key);
   try {
     const data = await res.json();
+
     return data;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+// update last entry section of form
+const entryUpdate = async function (){
+  const req = await fetch("/all");
+  try {
+    const allData = await req.json();
+    document.getElementById("date").innerHTML =
+      "<p> Today Date: " + allData.newEntry.entryDate + "</p>";
+    document.getElementById("temp").innerHTML =
+      "<p> Temperature: " + allData.newEntry.temperature + "</p>";
+    document.getElementById("content").innerHTML =
+      "<p> How you Feeling Today:\n" + allData.newEntry.feelings + "</p>";
   } catch (error) {
     console.log("error", error);
   }
@@ -52,7 +53,7 @@ const getweatherData = async function(baseURL, zip, key) {
 
 // use to make a POST request to our route
 const postData = async (url = "", data = {}) => {
-  console.log(data);
+
   const response = await fetch(url, {
     method: "POST",
     credentials: "same-origin",
@@ -65,9 +66,10 @@ const postData = async (url = "", data = {}) => {
 
   try {
     const newData = await response.json();
-    console.log(newData);
     return newData;
   } catch (error) {
     console.log("error", error);
   }
 };
+
+
