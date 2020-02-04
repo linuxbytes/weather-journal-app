@@ -17,22 +17,37 @@ document
         date: newDate,
         temperature: data.main.temp,
         feelings: feelings
-      });
+      }).then(entryUpdate);
     });
   });
+
+// update last entry section of form
+const entryUpdate = async function() {
+  const req = await fetch("/all");
+  try {
+    const allData = await req.json();
+    document.getElementById("date").innerHTML =
+      "<p>" + allData.newEntry.entryDate + "</p>";
+    document.getElementById("temp").innerHTML =
+      "<p>" + allData.newEntry.temperature + "</p>";
+    document.getElementById("content").innerHTML =
+      "<p>" + allData.newEntry.feelings + "</p>";
+  } catch (error) {
+    console.log("error", error);
+  }
+};
 
 const getweatherData = async function(baseURL, zip, key) {
   // asynchronous fetch openweathermap
   const res = await fetch(baseURL + zip + key);
   try {
     const data = await res.json();
-    console.log("api called!");
     return data;
   } catch (error) {
     console.log("error", error);
   }
 };
-console.log(getweatherData(baseURL, zip, key));
+// console.log(getweatherData(baseURL, zip, key));
 // let recentRecord = [];
 
 // use to make a POST request to our route
