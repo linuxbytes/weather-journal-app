@@ -7,19 +7,23 @@ const baseURL = "http://api.openweathermap.org/data/2.5/weather?q=";
 let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
-// get zip, feeling and country data for url
-// let zip = document.getElementById("zip").value;
-let zip = "10312"
-// let country = "," + document.getElementById("country").value + "&units=metric";
-let country = "," + "newyork" + "&units=metric";
+document
+  .getElementById("generate")
+  .addEventListener("click", function callweatherData() {
+    let zip = document.getElementById("zip").value;
+    let feelings = document.getElementById("feelings").value;
+    getweatherData(baseURL, zip, key).then(data => {
+      postData("/addWeatherData", {
+        date: newDate,
+        temperature: data.main.temp,
+        feelings: feelings
+      });
+    });
+  });
 
-// let feelings = document.getElementById("feelings").value;
-
-let feelings = "good"
-
-const weatherData = async function(baseURL, zip, country, key) {
+const getweatherData = async function(baseURL, zip, key) {
   // asynchronous fetch openweathermap
-  const res = await fetch(baseURL + zip + country + key);
+  const res = await fetch(baseURL + zip + key);
   try {
     const data = await res.json();
     console.log("api called!");
@@ -28,7 +32,7 @@ const weatherData = async function(baseURL, zip, country, key) {
     console.log("error", error);
   }
 };
-console.log(weatherData(baseURL, zip, country, key))
+console.log(getweatherData(baseURL, zip, key));
 // let recentRecord = [];
 
 // use to make a POST request to our route
